@@ -5,6 +5,7 @@
  */
 package HelloWorldResource;
 
+import javax.json.JsonObject;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.PathParam;
@@ -17,6 +18,11 @@ import javax.ws.rs.Produces;
 /**
  * REST Web Service
  *
+ * How to test?
+ * localhost:8080/HelloWorldApp/api/rest/
+ * localhost:8080/HelloWorldApp/api/rest/CustomName -> (Return html)
+ * localhost:8080/HelloWorldApp/api/rest/:CustomName -> (Return json)
+ * 
  * @author jaanacleto
  */
 @Path("/rest")
@@ -49,7 +55,15 @@ public class HelloWorld {
     @Produces("text/html")
     public String getHtml(@PathParam("name") String name) {
         //TODO return proper representation object
-        return "<html><body><h1>Hello " + (name==null ? "nobody" : name)  + "!</h1></body></html>";
+        return "<html><body>name:" + name + "</body></html>";
+        //throw new UnsupportedOperationException();
+    }
+    @Path("/:{name}")
+    @GET
+    @Produces("application/json")
+    public String getJson(@PathParam("name") String name) {
+        //TODO return proper representation object
+        return "[{name:" + name + "}]";
         //throw new UnsupportedOperationException();
     }
 
@@ -62,4 +76,6 @@ public class HelloWorld {
     @Consumes("text/html")
     public void putHtml(String content) {
     }
+
+    
 }
